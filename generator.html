@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vita26 | Generador de Accesos</title>
+  <style>
+    body {
+      background: #060b13;
+      color: #e6f0ff;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .panel {
+      background: #0a1929;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    h1 { color: #2f7cff; margin-bottom: 30px; }
+    .code-display {
+      font-size: 32px;
+      font-weight: bold;
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 10px;
+      letter-spacing: 5px;
+      margin-bottom: 20px;
+      color: #FF751F;
+      min-height: 40px;
+    }
+    button {
+      background: #2f7cff;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    button:disabled { opacity: 0.5; }
+    .status { font-size: 12px; margin-top: 15px; opacity: 0.6; }
+  </style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>Generador Vita26</h1>
+  <p>Crea códigos de un solo uso para autorizar usuarios.</p>
+  <div class="code-display" id="codeOut">---</div>
+  <button id="genBtn">Generar Código Nuevo</button>
+  <div class="status" id="status">Listo para generar</div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  const firebaseConfig = JSON.parse(__firebase_config);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+  const btn = document.getElementById('genBtn');
+  const codeOut = document.getElementById('codeOut');
+  const status = document.getElementById('status');
+
+  async function generateCode() {
+    btn.disabled = true;
+    status.textContent = "Conectando...";
+    
+    try {
+      // Iniciar sesión
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+      } else {
+        await signInAnonymously(auth);
+      }
+
+      // Crear código aleatorio
+      const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Evitamos O, I, 1, 0 para no confundir
+      let newCode = '';
+      for (let i = 0; i < 6; i++) {
+        newCode += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+
+      // Guardar en Firestore
+      const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'authCodes', newCode);
+      await setDoc(docRef, {
+        used: false,
+        createdAt: Date.now()
+      });
+
+      codeOut.textContent = newCode;
+      status.textContent = "Código guardado y listo para usar.";
+    } catch (e) {
+      console.error(e);
+      status.textContent = "Error al generar código.";
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  btn.onclick = generateCode;
+</script>
+
+</body>
+</html>
