@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Flux | Generador de Invitaciones</title>
+    <style>
+        body { background: #0f0f0f; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .box { background: #1a1a1a; padding: 40px; border-radius: 15px; border: 1px solid #6a11cb; text-align: center; }
+        button { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .code { font-size: 2rem; margin: 20px 0; color: #2575fc; letter-spacing: 5px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Generar Código Único</h2>
+        <div id="result" class="code">----</div>
+        <button onclick="generateCode()">CREAR CÓDIGO</button>
+        <p style="font-size: 0.8rem; color: #666;">Copia este código para entrar a Flux</p>
+    </div>
+
+    <script>
+        function generateCode() {
+            const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('result').innerText = code;
+            
+            // Guardamos en la "nube" del navegador los códigos válidos
+            let validCodes = JSON.parse(localStorage.getItem('flux_codes')) || [];
+            validCodes.push(code);
+            localStorage.setItem('flux_codes', JSON.stringify(validCodes));
+        }
+    </script>
+</body>
+</html>
