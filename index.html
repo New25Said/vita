@@ -10,168 +10,176 @@
         * { margin:0; padding:0; box-sizing: border-box; }
         body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* --- PANTALLA DE ACCESO --- */
+        /* --- ACCESO --- */
         #gatekeeper { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; justify-content: center; align-items: center; }
-        .login-box { text-align: center; width: 300px; }
-        .logo-login { font-size: 4rem; font-weight: 700; background: linear-gradient(to right, var(--p), var(--s)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-        input { width: 100%; padding: 15px; background: #111; border: 1px solid #333; color: white; border-radius: 10px; font-size: 1.2rem; text-align: center; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--s); box-shadow: 0 0 10px rgba(37, 117, 252, 0.3); }
-        .btn-go { width: 100%; padding: 15px; margin-top: 15px; background: linear-gradient(135deg, var(--p), var(--s)); border: none; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; }
-        #error-msg { color: #ff4b2b; font-size: 0.8rem; margin-top: 10px; display: none; }
+        .login-box { text-align: center; }
+        .logo-gradient { font-size: 4rem; font-weight: 700; background: linear-gradient(to right, var(--p), var(--s)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+        input[type="text"] { width: 250px; padding: 15px; background: #111; border: 1px solid #333; color: white; border-radius: 10px; text-align: center; outline: none; }
+        .btn-go { padding: 15px 30px; background: linear-gradient(135deg, var(--p), var(--s)); border: none; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; margin-left: 10px; }
 
-        /* --- INTERFAZ PRINCIPAL --- */
+        /* --- APP --- */
         #flux-app { display: none; }
-        nav { position: fixed; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid #222; }
-        .logo { font-weight: bold; font-size: 1.5rem; color: white; text-decoration: none; }
-        .search-input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 8px 15px; border-radius: 20px; width: 200px; }
+        nav { position: fixed; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 1000; }
+        .search-bar { background: #1a1a1a; border: 1px solid #333; color: white; padding: 8px 15px; border-radius: 20px; width: 300px; }
 
-        .hero { height: 60vh; background: linear-gradient(to top, var(--bg), transparent 50%), url('media/hero_biocore.jpg') center/cover; display: flex; align-items: flex-end; padding: 5%; }
+        .container { padding: 100px 5% 50px; }
+        .section-title { margin: 30px 0 15px; font-size: 1.5rem; font-weight: 700; border-left: 4px solid var(--p); padding-left: 15px; }
         
-        .section-title { padding: 40px 5% 20px; font-size: 1.5rem; font-weight: 700; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 0 5%; }
-        
-        .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.4s; position: relative; border: 1px solid transparent; }
-        .card:hover { transform: translateY(-10px) scale(1.03); border-color: var(--p); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .card img { width: 100%; height: 280px; object-fit: cover; }
-        .card-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
+        /* GRID */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .card { background: var(--card); border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
+        .card:hover { transform: translateY(-5px); border-color: var(--s); box-shadow: 0 0 15px rgba(37, 117, 252, 0.4); }
+        .card img { width: 100%; height: 300px; object-fit: cover; }
+        .card-info { padding: 12px; font-size: 0.9rem; text-align: center; }
 
-        /* --- REPRODUCTOR DE VIDEO --- */
+        /* REPRODUCTOR */
         #video-overlay { display: none; position: fixed; inset: 0; background: #000; z-index: 5000; }
         video { width: 100%; height: 100%; }
-        .close-vid { position: absolute; top: 20px; left: 20px; color: white; font-size: 3rem; cursor: pointer; z-index: 5001; line-height: 1; }
+        .close-vid { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; z-index: 5001; }
 
-        /* --- MODAL EPISODIOS --- */
-        #ep-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #111; padding: 30px; border-radius: 20px; width: 90%; max-width: 600px; border: 1px solid #333; }
-        .ep-row { display: flex; align-items: center; gap: 15px; padding: 10px; border-radius: 10px; margin-bottom: 10px; background: #1a1a1a; cursor: pointer; transition: 0.2s; }
-        .ep-row:hover { background: #222; transform: translateX(5px); }
-        .ep-row img { width: 100px; height: 60px; border-radius: 5px; object-fit: cover; }
+        /* MODAL EPISODIOS */
+        #ep-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: #111; padding: 30px; border-radius: 20px; width: 90%; max-width: 700px; border: 1px solid #333; }
+        .ep-list { max-height: 400px; overflow-y: auto; margin-top: 20px; }
+        .ep-item { display: flex; align-items: center; gap: 20px; padding: 15px; background: #1a1a1a; border-radius: 10px; margin-bottom: 10px; cursor: pointer; }
+        .ep-item:hover { background: #252525; }
+        .ep-item img { width: 120px; height: 70px; border-radius: 5px; object-fit: cover; }
     </style>
 </head>
 <body>
 
     <div id="gatekeeper">
         <div class="login-box">
-            <div class="logo-login">FLUX</div>
-            <input type="text" id="pass-input" placeholder="CÓDIGO ÚNICO">
-            <button class="btn-go" onclick="attemptLogin()">ACCEDER</button>
-            <p id="error-msg">Código inválido o ya usado.</p>
+            <div class="logo-gradient">FLUX</div>
+            <input type="text" id="pass-input" placeholder="CÓDIGO DE ACCESO">
+            <button class="btn-go" onclick="attemptLogin()">ENTRAR</button>
+            <p id="err" style="color:red; margin-top:15px; display:none;">Código inválido o ya usado.</p>
         </div>
     </div>
 
     <div id="flux-app">
         <nav>
-            <a href="#" class="logo">FLUX</a>
-            <input type="text" class="search-input" placeholder="Buscar..." onkeyup="filter(this.value)">
+            <div class="logo-gradient" style="font-size: 1.5rem; margin:0;">FLUX</div>
+            <input type="text" class="search-bar" placeholder="Buscar series o pelis..." onkeyup="filter(this.value)">
         </nav>
 
-        <div class="hero">
-            <div class="hero-content">
-                <h1 style="font-size: 3rem; margin-bottom: 10px;">BIOCORE</h1>
-                <p style="margin-bottom: 20px; color: #ccc;">Una creación biológica fuera de control. El fin de la humanidad.</p>
-                <button onclick="showEpisodes('BioCore')" style="padding: 12px 25px; background: white; color: black; border: none; font-weight: bold; border-radius: 5px; cursor: pointer;">VER EPISODIOS</button>
+        <div class="container">
+            <div id="resume-section" style="display: none;">
+                <h2 class="section-title">Continuar viendo</h2>
+                <div class="grid" id="resume-grid"></div>
+            </div>
+
+            <h2 class="section-title">Series</h2>
+            <div class="grid" id="series-grid">
+                <div class="card" onclick="openSeries('BioCore', ['Ep 1: El Despertar', 'Ep 2: Infectados', 'Ep 3: Escape'], 'biocore')" data-title="biocore">
+                    <img src="media/series/biocore_poster.jpg" alt="BioCore">
+                    <div class="card-info">BioCore</div>
+                </div>
+                <div class="card" onclick="openSeries('Roblox City', ['Ep 1: Bienvenido', 'Ep 2: El Robo'], 'roblox')" data-title="roblox">
+                    <img src="media/series/roblox_poster.jpg" alt="Roblox">
+                    <div class="card-info">Roblox City</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Películas</h2>
+            <div class="grid" id="movies-grid">
+                <div class="card" onclick="playVideo('media/pelis/pelicula1.mp4', 'Mi Película')" data-title="mi pelicula">
+                    <img src="media/pelis/poster1.jpg">
+                    <div class="card-info">Mi Película</div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <h2 class="section-title">Nuevos Lanzamientos</h2>
-        <div class="grid" id="main-grid">
-            <div class="card" onclick="launchVideo('media/pelis/movie1.mp4')" data-name="interstellar">
-                <img src="media/pelis/poster1.jpg" alt="">
-                <div class="card-info">Interstellar</div>
-            </div>
-            <div class="card" onclick="launchVideo('media/pelis/movie2.mp4')" data-name="inception">
-                <img src="media/pelis/poster2.jpg" alt="">
-                <div class="card-info">Inception</div>
-            </div>
+    <div id="ep-modal" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2 id="modal-title"></h2>
+            <div id="ep-list" class="ep-list"></div>
         </div>
     </div>
 
     <div id="video-overlay">
         <div class="close-vid" onclick="closeVideo()">&times;</div>
-        <video id="player" controls controlsList="nodownload">
-            <source id="video-src" src="" type="video/mp4">
-        </video>
-    </div>
-
-    <div id="ep-modal" onclick="this.style.display='none'">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 id="modal-title" style="margin-bottom: 20px;"></h2>
-            <div class="ep-row" onclick="launchVideo('media/series/biocore_e1.mp4')">
-                <img src="media/series/thumb1.jpg" alt="">
-                <div>
-                    <h4>1. El Incidente</h4>
-                    <p style="font-size: 0.7rem; color: #777;">42 min</p>
-                </div>
-            </div>
-            <div class="ep-row" onclick="launchVideo('media/series/biocore_e2.mp4')">
-                <img src="media/series/thumb2.jpg" alt="">
-                <div>
-                    <h4>2. Zona de Exclusión</h4>
-                    <p style="font-size: 0.7rem; color: #777;">38 min</p>
-                </div>
-            </div>
-        </div>
+        <video id="main-player" controls></video>
     </div>
 
     <script>
-        // 1. Lógica de Seguridad de Un Solo Uso
+        // 1. SEGURIDAD
         function attemptLogin() {
-            const val = document.getElementById('pass-input').value.toUpperCase();
-            let validKeys = JSON.parse(localStorage.getItem('flux_valid_keys')) || [];
-
-            if (validKeys.includes(val)) {
-                // BORRAR CÓDIGO (Para que no se use otra vez)
-                let updatedKeys = validKeys.filter(k => k !== val);
-                localStorage.setItem('flux_valid_keys', JSON.stringify(updatedKeys));
-                
-                // Activar sesión temporal (se borra al cerrar el navegador)
-                sessionStorage.setItem('flux_auth', 'true');
-                unlock();
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
+            const code = document.getElementById('pass-input').value.toUpperCase();
+            let valid = JSON.parse(localStorage.getItem('flux_valid_keys')) || [];
+            if(valid.includes(code)) {
+                let updated = valid.filter(c => c !== code);
+                localStorage.setItem('flux_valid_keys', JSON.stringify(updated));
+                sessionStorage.setItem('auth', 'true');
+                location.reload();
+            } else { document.getElementById('err').style.display='block'; }
         }
 
-        function unlock() {
-            document.getElementById('gatekeeper').style.display = 'none';
-            document.getElementById('flux-app').style.display = 'block';
-        }
-
-        // 2. Reproductor
-        function launchVideo(path) {
-            const player = document.getElementById('player');
-            const source = document.getElementById('video-src');
-            source.src = path;
-            player.load();
-            document.getElementById('video-overlay').style.display = 'block';
-            player.play();
-        }
-
-        function closeVideo() {
-            const player = document.getElementById('player');
-            player.pause();
-            document.getElementById('video-overlay').style.display = 'none';
-        }
-
-        // 3. Buscador Real
-        function filter(query) {
-            const q = query.toLowerCase();
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                card.style.display = name.includes(q) ? 'block' : 'none';
+        // 2. SERIES Y EPISODIOS
+        function openSeries(name, episodes, folder) {
+            const list = document.getElementById('ep-list');
+            document.getElementById('modal-title').innerText = name;
+            list.innerHTML = "";
+            episodes.forEach((ep, index) => {
+                const epNum = index + 1;
+                list.innerHTML += `
+                    <div class="ep-item" onclick="playVideo('media/series/${folder}/e${epNum}.mp4', '${name} - ${ep}')">
+                        <img src="media/series/${folder}/thumb${epNum}.jpg">
+                        <div>
+                            <h4>${ep}</h4>
+                            <p>Episodio ${epNum}</p>
+                        </div>
+                    </div>
+                `;
             });
-        }
-
-        // 4. Modal de Episodios
-        function showEpisodes(title) {
-            document.getElementById('modal-title').innerText = title;
             document.getElementById('ep-modal').style.display = 'flex';
         }
 
-        // Persistencia de sesión al recargar
+        // 3. REPRODUCTOR Y CONTINUAR VIENDO
+        function playVideo(src, title) {
+            const player = document.getElementById('main-player');
+            player.src = src;
+            document.getElementById('video-overlay').style.display = 'block';
+            player.play();
+            // Guardar en continuar viendo
+            localStorage.setItem('flux_last', JSON.stringify({src, title}));
+        }
+
+        function closeVideo() {
+            document.getElementById('main-player').pause();
+            document.getElementById('video-overlay').style.display = 'none';
+            loadResume();
+        }
+
+        function loadResume() {
+            const last = JSON.parse(localStorage.getItem('flux_last'));
+            if(last) {
+                document.getElementById('resume-section').style.display = 'block';
+                document.getElementById('resume-grid').innerHTML = `
+                    <div class="card" onclick="playVideo('${last.src}', '${last.title}')">
+                        <div style="background:#222; height:150px; display:flex; align-items:center; justify-content:center;">▶</div>
+                        <div class="card-info">${last.title}</div>
+                    </div>
+                `;
+            }
+        }
+
+        // 4. BUSCADOR
+        function filter(q) {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(c => {
+                const title = c.getAttribute('data-title') || "";
+                c.style.display = title.toLowerCase().includes(q.toLowerCase()) ? "block" : "none";
+            });
+        }
+
         window.onload = () => {
-            if(sessionStorage.getItem('flux_auth') === 'true') unlock();
+            if(sessionStorage.getItem('auth') === 'true') {
+                document.getElementById('gatekeeper').style.display = 'none';
+                document.getElementById('flux-app').style.display = 'block';
+                loadResume();
+            }
         }
     </script>
 </body>
