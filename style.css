@@ -1,146 +1,95 @@
-:root {
-    --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    --bg-color: #0f0f0f;
-    --card-bg: #1a1a1a;
-    --text-color: #ffffff;
-}
+/* ... (mantener los estilos anteriores y añadir estos) ... */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-}
-
-/* Navbar con Blur */
-.navbar {
-    padding: 20px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-    background: rgba(15, 15, 15, 0.8);
-    backdrop-filter: blur(10px);
-}
-
-.logo {
-    font-size: 2rem;
-    font-weight: 700;
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-.nav-links a {
-    color: #ccc;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    color: #fff;
-}
-
-/* Hero Section */
-.hero {
-    height: 80vh;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.2), var(--bg-color)), 
-                url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    padding: 0 5%;
-}
-
-.hero-title {
-    font-size: 4rem;
-    margin-bottom: 10px;
-}
-
-.hero-description {
-    max-width: 600px;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    color: #ddd;
-}
-
-.btn-play {
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    background: var(--primary-gradient);
+.search-bar input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #444;
+    padding: 8px 15px;
+    border-radius: 20px;
     color: white;
-    cursor: pointer;
-    margin-right: 10px;
-    transition: transform 0.2s;
+    outline: none;
 }
 
-.btn-play:hover {
-    transform: scale(1.05);
+.content-section {
+    padding: 20px 5%;
 }
 
-/* Galería */
-.content {
-    padding: 40px 5%;
-}
-
-.category-title {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
-
-.media-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.media-card {
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-
-.media-card:hover {
-    transform: scale(1.1);
-    z-index: 10;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    border: 1px solid #6a11cb;
-}
-
-.media-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-}
-
-.card-overlay {
+/* Barra de progreso para "Continuar viendo" */
+.progress-bar {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 4px;
+    background: #333;
+}
+
+.progress {
+    height: 100%;
+    background: var(--primary-gradient);
+}
+
+/* Modal de Episodios */
+.modal {
+    display: none; /* Cambiar a 'flex' con JS para mostrar */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #181818;
+    padding: 30px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 1px solid #333;
+}
+
+.episode-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.episode-item {
+    display: flex;
+    gap: 20px;
     padding: 10px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    background: #222;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.episode-item:hover {
+    background: #333;
+}
+
+.episode-item img {
+    width: 150px;
+    border-radius: 4px;
+}
+
+.ep-info h3 {
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.ep-info p {
+    color: #888;
     font-size: 0.9rem;
-    text-align: center;
+}
+
+.close-btn {
+    float: right;
+    font-size: 2rem;
+    cursor: pointer;
 }
