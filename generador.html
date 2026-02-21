@@ -2,31 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Flux | Generador de Invitaciones</title>
+    <title>Flux Admin | Generador de Códigos</title>
     <style>
-        body { background: #0f0f0f; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .box { background: #1a1a1a; padding: 40px; border-radius: 15px; border: 1px solid #6a11cb; text-align: center; }
-        button { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .code { font-size: 2rem; margin: 20px 0; color: #2575fc; letter-spacing: 5px; }
+        body { background: #050505; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #111; padding: 40px; border-radius: 20px; border: 1px solid #6a11cb; text-align: center; box-shadow: 0 0 30px rgba(106, 17, 203, 0.3); }
+        h2 { margin-bottom: 10px; font-weight: 300; }
+        .code-box { font-size: 3rem; font-family: monospace; color: #2575fc; margin: 25px 0; background: #000; padding: 10px; border-radius: 10px; letter-spacing: 5px; }
+        button { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; padding: 15px 30px; color: white; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.3s; }
+        button:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .hint { color: #555; font-size: 0.8rem; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2>Generar Código Único</h2>
-        <div id="result" class="code">----</div>
-        <button onclick="generateCode()">CREAR CÓDIGO</button>
-        <p style="font-size: 0.8rem; color: #666;">Copia este código para entrar a Flux</p>
+    <div class="container">
+        <h2>Pase Único Flux</h2>
+        <div id="display" class="code-box">------</div>
+        <button onclick="generate()">GENERAR CÓDIGO</button>
+        <p class="hint">Copia este código. Solo funcionará una vez en la app principal.</p>
     </div>
 
     <script>
-        function generateCode() {
-            const code = Math.random().toString(36).substring(2, 8).toUpperCase();
-            document.getElementById('result').innerText = code;
+        function generate() {
+            const char = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // Evitamos O, 0, I, 1 por confusión
+            let code = "";
+            for(let i=0; i<6; i++) code += char.charAt(Math.floor(Math.random() * char.length));
             
-            // Guardamos en la "nube" del navegador los códigos válidos
-            let validCodes = JSON.parse(localStorage.getItem('flux_codes')) || [];
-            validCodes.push(code);
-            localStorage.setItem('flux_codes', JSON.stringify(validCodes));
+            document.getElementById('display').innerText = code;
+            
+            // Guardar en la lista de códigos válidos
+            let codes = JSON.parse(localStorage.getItem('flux_valid_keys')) || [];
+            codes.push(code);
+            localStorage.setItem('flux_valid_keys', JSON.stringify(codes));
         }
     </script>
 </body>
