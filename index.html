@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flux | Streaming Experience</title>
+    <title>Flux | Streaming</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,49 +12,68 @@
     <nav class="navbar">
         <div class="logo">FLUX</div>
         <ul class="nav-links">
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Series</a></li>
-            <li><a href="#">Películas</a></li>
-            <li><a href="#">Mi Lista</a></li>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#series">Series</a></li>
+            <li><a href="#peliculas">Películas</a></li>
         </ul>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar series o pelis...">
+        </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Contenido Ilimitado</h1>
-            <p class="hero-description">Explora los mejores videos y producciones desde tu carpeta multimedia local.</p>
-            <div class="hero-buttons">
-                <button class="btn-play">Reproducir</button>
-                <button class="btn-info">Más información</button>
-            </div>
-        </div>
-    </header>
-
-    <main class="content">
+    <section class="content-section" style="margin-top: 100px;">
         <h2 class="category-title">Continuar viendo</h2>
         <div class="media-grid">
-            <div class="media-card">
-                <img src="media/poster1.jpg" alt="Video 1">
-                <div class="card-overlay">Video 1</div>
-            </div>
-            <div class="media-card">
-                <img src="media/poster2.jpg" alt="Video 2">
-                <div class="card-overlay">Video 2</div>
-            </div>
-            <div class="media-card">
-                <img src="media/poster3.jpg" alt="Video 3">
-                <div class="card-overlay">Video 3</div>
-            </div>
-            <div class="media-card">
-                <img src="media/poster4.jpg" alt="Video 4">
-                <div class="card-overlay">Video 4</div>
-            </div>
-            <div class="media-card">
-                <img src="media/poster5.jpg" alt="Video 5">
-                <div class="card-overlay">Video 5</div>
+            <div class="media-card progress-card">
+                <img src="media/series/thumb1.jpg" alt="Serie">
+                <div class="progress-bar"><div class="progress" style="width: 60%;"></div></div>
+                <div class="card-overlay">S1:E4 - Nombre Episodio</div>
             </div>
         </div>
-    </main>
+    </section>
+
+    <section id="peliculas" class="content-section">
+        <h2 class="category-title">Películas</h2>
+        <div class="media-grid">
+            <div class="media-card">
+                <img src="media/pelis/peli1.jpg" alt="Pelicula 1">
+                <div class="card-overlay">Nombre Película</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="series" class="content-section">
+        <h2 class="category-title">Series</h2>
+        <div class="media-grid">
+            <div class="media-card serie-trigger">
+                <img src="media/series/serie1.jpg" alt="Serie 1">
+                <div class="card-overlay">Nombre Serie</div>
+            </div>
+        </div>
+    </section>
+
+    <div id="episode-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Elegir Episodio</h2>
+            <div class="episode-list">
+                <div class="episode-item">
+                    <img src="media/series/ep1.jpg" alt="Ep 1">
+                    <div class="ep-info">
+                        <h3>1. Piloto</h3>
+                        <p>45 min</p>
+                    </div>
+                </div>
+                <div class="episode-item">
+                    <img src="media/series/ep2.jpg" alt="Ep 2">
+                    <div class="ep-info">
+                        <h3>2. El Comienzo</h3>
+                        <p>42 min</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
