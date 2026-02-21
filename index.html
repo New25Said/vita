@@ -3,77 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flux | Streaming</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Flux | Streaming Experience</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --bg-color: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-color: #ffffff;
+            --accent-color: #6a11cb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            outline: none;
+            width: 250px;
+            transition: 0.3s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--accent-color);
+            width: 300px;
+        }
+
+        /* --- SECCIONES --- */
+        .content-section {
+            padding: 40px 5% 0 5%;
+        }
+
+        .category-title {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #eee;
+        }
+
+        /* --- GRID Y CARDS --- */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .media-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .media-card:hover {
+            transform: scale(1.08);
+            z-index: 10;
+            border: 1px solid #6a11cb;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+        }
+
+        .media-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* --- CONTINUAR VIENDO --- */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary-gradient);
+            box-shadow: 0 0 10px #6a11cb;
+        }
+
+        /* --- MODAL EPISODIOS --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #141414;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .close-btn:hover { color: #fff; }
+
+        .episode-list {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .episode-item {
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+            background: #1f1f1f;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            align-items: center;
+        }
+
+        .episode-item:hover {
+            background: #2a2a2a;
+            transform: translateX(10px);
+        }
+
+        .episode-item img {
+            width: 180px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .ep-info h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .ep-info p { color: #888; font-size: 0.85rem; }
+
+    </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo">FLUX</div>
+        <a href="#" class="logo">FLUX</a>
         <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#continuar">Inicio</a></li>
             <li><a href="#series">Series</a></li>
             <li><a href="#peliculas">Películas</a></li>
         </ul>
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar series o pelis...">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Buscar por nombre..." onkeyup="filterContent()">
         </div>
     </nav>
 
-    <section class="content-section" style="margin-top: 100px;">
+    <div style="height: 100px;" id="continuar"></div>
+
+    <section class="content-section">
         <h2 class="category-title">Continuar viendo</h2>
         <div class="media-grid">
-            <div class="media-card progress-card">
-                <img src="media/series/thumb1.jpg" alt="Serie">
-                <div class="progress-bar"><div class="progress" style="width: 60%;"></div></div>
-                <div class="card-overlay">S1:E4 - Nombre Episodio</div>
+            <div class="media-card" data-name="BioCore">
+                <img src="media/series/biocore_thumb.jpg" alt="BioCore">
+                <div class="progress-bar"><div class="progress" style="width: 75%;"></div></div>
+                <div class="card-overlay">BioCore - S1:E2</div>
             </div>
         </div>
     </section>
 
     <section id="peliculas" class="content-section">
         <h2 class="category-title">Películas</h2>
-        <div class="media-grid">
-            <div class="media-card">
-                <img src="media/pelis/peli1.jpg" alt="Pelicula 1">
-                <div class="card-overlay">Nombre Película</div>
+        <div class="media-grid" id="gridPeliculas">
+            <div class="media-card" data-name="Misión Rescate">
+                <img src="media/pelis/peli1.jpg" alt="Peli 1">
+                <div class="card-overlay">Misión Rescate</div>
+            </div>
+            <div class="media-card" data-name="Interstellar">
+                <img src="media/pelis/peli2.jpg" alt="Peli 2">
+                <div class="card-overlay">Interstellar</div>
             </div>
         </div>
     </section>
 
-    <section id="series" class="content-section">
+    <section id="series" class="content-section" style="padding-bottom: 100px;">
         <h2 class="category-title">Series</h2>
-        <div class="media-grid">
-            <div class="media-card serie-trigger">
-                <img src="media/series/serie1.jpg" alt="Serie 1">
-                <div class="card-overlay">Nombre Serie</div>
+        <div class="media-grid" id="gridSeries">
+            <div class="media-card" data-name="BioCore" onclick="openEpisodes('BioCore')">
+                <img src="media/series/serie1.jpg" alt="BioCore">
+                <div class="card-overlay">BioCore (Original)</div>
+            </div>
+            <div class="media-card" data-name="The Last Code" onclick="openEpisodes('The Last Code')">
+                <img src="media/series/serie2.jpg" alt="Serie 2">
+                <div class="card-overlay">The Last Code</div>
             </div>
         </div>
     </section>
 
-    <div id="episode-modal" class="modal">
+    <div id="episodeModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2 id="modal-title">Elegir Episodio</h2>
+            <span class="close-btn" onclick="closeEpisodes()">&times;</span>
+            <h2 id="modalTitle" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Nombre de la Serie</h2>
+            
             <div class="episode-list">
                 <div class="episode-item">
-                    <img src="media/series/ep1.jpg" alt="Ep 1">
+                    <img src="media/series/ep1_thumb.jpg" alt="Ep 1">
                     <div class="ep-info">
-                        <h3>1. Piloto</h3>
-                        <p>45 min</p>
+                        <h3>1. El Origen</h3>
+                        <p>45 min - Nova y Kris descubren el laboratorio secreto.</p>
                     </div>
                 </div>
                 <div class="episode-item">
-                    <img src="media/series/ep2.jpg" alt="Ep 2">
+                    <img src="media/series/ep2_thumb.jpg" alt="Ep 2">
                     <div class="ep-info">
-                        <h3>2. El Comienzo</h3>
-                        <p>42 min</p>
+                        <h3>2. Escape</h3>
+                        <p>40 min - La ciudad entra en cuarentena biológica.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        // Función para abrir el selector de episodios
+        function openEpisodes(serieName) {
+            document.getElementById('modalTitle').innerText = serieName;
+            document.getElementById('episodeModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Bloquear scroll
+        }
+
+        // Función para cerrar el modal
+        function closeEpisodes() {
+            document.getElementById('episodeModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Habilitar scroll
+        }
+
+        // Cerrar modal si se hace clic fuera del contenido
+        window.onclick = function(event) {
+            let modal = document.getElementById('episodeModal');
+            if (event.target == modal) {
+                closeEpisodes();
+            }
+        }
+
+        // Buscador en tiempo real
+        function filterContent() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('media-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getAttribute('data-name').toLowerCase();
+                if (name.includes(input)) {
+                    cards[i].style.display = "block";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>
